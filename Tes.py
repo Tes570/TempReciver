@@ -1,8 +1,20 @@
 import smbus
-import time
-from firebase import firebase
 
-firebase= firebase.FirebaseApplication('https://ee175b21.firebaseio.com/')
+#import firebase
+#from firebase import db
+from firebase import firebase as Fire
 
-result = firebase.post('EE175b21', {'cTemp':str(12),'ftemp':str(24), 'humidity':str(48)})
+
+#fireLink = firebase.FirebaseApplication('https://ee175b21.firebaseio.com/')
+fireLink = Fire.FirebaseApplication('https://ee175b21.firebaseio.com/')
+
+#firebase.auth()
+#db = firebase.database()
+
+fireLink.put('EE175b21/user/pi', 'cTemp', str(14))
+fireLink.put('EE175b21/user/pi', 'Hight', str(10))
+
+result = fireLink.get('EE175b21/user/pi', None)
+#result = ref.child('EE175b21/user/pi').get()
+
 print(result)
