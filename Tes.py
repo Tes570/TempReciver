@@ -14,7 +14,7 @@ fireLink = Fire.FirebaseApplication('https://ee175b21.firebaseio.com/')
 fireLink.put('EE175b21/user/pi', 'cTemp', str(14))
 fireLink.put('EE175b21/user/pi', 'Hight', str(10))
 
-result = fireLink.get('EE175b21/user/pi', None)
+result = fireLink.get('EE175b21/user/pi/Hight', None)
 #result = ref.child('EE175b21/user/pi').get()
 
 print(result)
