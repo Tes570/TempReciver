@@ -15,7 +15,7 @@ class FireData:
 		self.fireLink = Fire.FirebaseApplication('https://ee175b21.firebaseio.com/')
 
 	def get(self, room, value):
-		return fireLink.get(("Demo//Room Setting//room" + str(room) + "//" + str(value)), None)
+		return self.fireLink.get(("Demo//Room Setting//room" + str(room) + "//" + str(value)), None)
 
 
 
@@ -49,7 +49,7 @@ Pins = [PinCon(16), PinCon(20), PinCon(21)]
 try:
     while 1:                    # Loop will run forever
 
-    	result = fireLink.get("Demo/Room Setting/room0", None)
+    	print(Pins[0].get())
     	
 
 # If Keyborad Interrupt (CTRL+C) is pressed
