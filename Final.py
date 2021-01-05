@@ -1,13 +1,24 @@
 import RPi.GPIO as GPIO     # Importing RPi library to use the GPIO pins
 import smbus
 
-
 from firebase import firebase as Fire
 
 
 
 GPIO.setmode(GPIO.BCM) 
-fireLink = Fire.FirebaseApplication('https://ee175b21.firebaseio.com/')
+
+
+
+class FireData:
+
+	def __init__(self):
+		self.fireLink = Fire.FirebaseApplication('https://ee175b21.firebaseio.com/')
+
+	def get(self, room, value):
+		return fireLink.get(("Demo//Room Setting//room" + str(room) + "//" + str(value)), None)
+
+
+
 
 class PinCon:
 
@@ -16,10 +27,22 @@ class PinCon:
 		GPIO.setup(self.pin, GPIO.OUT)     # Declaring GPIO 21 as output pin
 		self.p = GPIO.PWM(self.pin, 50)     # Created PWM channel at 50Hz frequency
 		self.p.start(2.5)
+		self.ON = False
 
 	def set(self, deg):
-		self.p = self.p.ChangeDutyCycle(2.5)
+		T = (10/180)*deg + 2.5
+		self.p = self.p.ChangeDutyCycle(T)
 
+		if deg != 0:
+			self.ON = False
+		else:
+			self.ON = True
+
+	def get(self):
+		return self.ON
+
+
+Pins = [PinCon(16), PinCon(20), PinCon(21)]
 
 
 
@@ -27,14 +50,8 @@ try:
     while 1:                    # Loop will run forever
 
     	result = fireLink.get("Demo/Room Setting/room0", None)
-    	print(result)
     	
-        p.ChangeDutyCycle(2.5)  # Move servo to 0 degrees
-        sleep(1)                # Delay of 1 sec
-        p.ChangeDutyCycle(7.5)  # Move servo to 90 degrees
-        sleep(1)                
-        #p.ChangeDutyCycle(12.5) # Move servo to 180 degrees
-        #sleep(1)
+
 # If Keyborad Interrupt (CTRL+C) is pressed
 except KeyboardInterrupt:
     pass   # Go to next line
