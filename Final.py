@@ -49,7 +49,7 @@ class FireCon:
 
     	for i in range(len(self.cur)):
     		for t in range(len(self.setting)):
-    			if(self.setting[t][i] == 1):
+    			if((self.setting[t][i] == 1) && (self.turn[t])):
     				self.cur[i] = 1
         
 
