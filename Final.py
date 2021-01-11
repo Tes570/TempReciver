@@ -47,8 +47,8 @@ class FireCon:
 
     	self.cur = [0, 0, 0, 0]
 
-    	for i in len(self.cur):
-    		for t in len(self.setting):
+    	for i in range(len(self.cur)):
+    		for t in range(len(self.setting)):
     			if(self.setting[t][i] == 1):
     				self.cur[i] = 1
         
