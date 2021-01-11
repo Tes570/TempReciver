@@ -86,14 +86,14 @@ OData = FireData(3)
 try:
 	while 1:
 
-	    for i in range(OData.Rooms):
-            if(OData.get_temp(i) > OData.get_setting(i)):
-            	Con.update(i, True)
-            	#tes
-            else:
-            	Con.update(i, False)
-        OData.run()
-        print(OData.cur)
+		for i in range(OData.Rooms):
+			if(OData.get_temp(i) > OData.get_setting(i)):
+	        	Con.update(i, True)
+	        	#tes
+			else:
+				Con.update(i, False)
+		OData.run()
+		print(OData.cur)
 
         
 
