@@ -91,8 +91,8 @@ try:
 				Con.update(i, True)
 			else:
 				Con.update(i, False)
-		OData.run()
-		print(OData.cur)
+		Con.run()
+		print(Con.cur)
 
         
 
