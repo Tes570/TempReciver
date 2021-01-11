@@ -12,9 +12,9 @@ GPIO.setmode(GPIO.BCM)
 
 class FireData:
 
-    def __init__(self):
+    def __init__(self, tem):
 	#demo
-        Rooms = 3
+        Rooms = tem
         
 
     def get_setting(self, room):
@@ -59,6 +59,7 @@ try:
 
 	    for i in range(OData.Rooms):
 	            if(OData.get_temp(i) > OData.get_setting(i)):
+	            	print("hello")
 	            	#tes
 
         
