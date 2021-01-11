@@ -16,6 +16,7 @@ class FireData:
     def __init__(self, tem):
 	#demo
         self.Rooms = tem
+        self.On = False
         
 
     def get_setting(self, room):
@@ -24,6 +25,33 @@ class FireData:
     def get_temp(self, room):
         return fireLink.get(("Demo//Room Temp//room" + str(room)), None)
 
+
+class FireCon:
+
+
+
+    def __init__(self, tem):
+	#demo
+        self.Pins = tem
+        self.setting = [[0, 0, 0, 1], [1, 0, 1, 0], [1, 1, 0, 0]]
+        self.turn = [False, False, False]
+        self.cur = [0, 0, 0, 0]
+
+        self.open = 0
+        self.close = 90
+
+    def update(self, tem, bo):
+    	self.turn[tem] = bo
+
+    def run(self):
+
+    	self.cur = [0, 0, 0, 0]
+
+    	for i in len(self.cur):
+    		for t in len(self.setting):
+    			if(self.setting[t][i] == 1):
+    				self.cur[i] = 1
+        
 
 
 
@@ -49,19 +77,23 @@ class PinCon:
             return self.ON
 
 
-Pins = [PinCon(16), PinCon(20), PinCon(21), PinCon(26)]
+Pins = [PinCon(16), PinCon(20), PinCon(21), PinCon(12)]
+
+Con = FireCon(Pins)
 
 OData = FireData(3)
 
 try:
 	while 1:
-	                    # Loop will run forever
-	    print(Pins[0].get())
 
 	    for i in range(OData.Rooms):
-	            if(OData.get_temp(i) > OData.get_setting(i)):
-	            	print("hello")
-	            	#tes
+            if(OData.get_temp(i) > OData.get_setting(i)):
+            	Con.update(i, True)
+            	#tes
+            else:
+            	Con.update(i, False)
+        OData.run()
+        print(OData.cur)
 
         
 
