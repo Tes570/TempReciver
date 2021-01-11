@@ -12,11 +12,10 @@ GPIO.setmode(GPIO.BCM)
 
 class FireData:
 
-	Rooms = 0
 
     def __init__(self, tem):
 	#demo
-        Rooms = tem
+        self.Rooms = tem
         
 
     def get_setting(self, room):
