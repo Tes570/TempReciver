@@ -59,6 +59,7 @@ try:
 
 	    for i in range(OData.Rooms):
 	            if(OData.get_temp(i) > OData.get_setting(i)):
+	            	#tes
 
         
 
