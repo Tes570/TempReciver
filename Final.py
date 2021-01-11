@@ -14,10 +14,14 @@ class FireData:
 
     def __init__(self):
 	#demo
-        t = 12
+        Rooms = 3
+        
 
-    def get(self, room, value):
-        return fireLink.get(("Demo//Room Setting//room" + str(room) + "//" + str(value)), None)
+    def get_setting(self, room):
+        return fireLink.get(("Demo//Room Setting//room" + str(room)), None)
+
+    def get_temp(self, room):
+        return fireLink.get(("Demo//Room Temp//room" + str(room)), None)
 
 
 
@@ -44,14 +48,18 @@ class PinCon:
             return self.ON
 
 
-Pins = [PinCon(16), PinCon(20), PinCon(21)]
+Pins = [PinCon(16), PinCon(20), PinCon(21), PinCon(26)]
 
-
+OData = FireData(3)
 
 try:
     while 1:                    # Loop will run forever
 
         print(Pins[0].get())
+
+        for i in range(OData.Rooms):
+        	if(OData.get_temp(i) > OData.get_setting(i)):
+
     	
 
 # If Keyborad Interrupt (CTRL+C) is pressed
