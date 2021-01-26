@@ -6,6 +6,7 @@ Time = .000056 * 4
 
 
 GPIO.setmode(GPIO.BCM) 
+GPIO.setwarnings(False)
 GPIO.setup(Pin, GPIO.OUT)     # Declaring GPIO 21 as output pin
 
 
@@ -31,8 +32,14 @@ def process(x):
 def run():
 	
 
-	process(0x35)
-	time.sleep(.000056 * 1800)
+	#process(0x35)
+	#n = "aAB"
+	
+	
+	#process(ord(n[0]))
+	
+	process(0x65)
+	time.sleep(.000056 * 100)
 	
 	
 
@@ -49,5 +56,6 @@ try:
 # If Keyborad Interrupt (CTRL+C) is pressed
 except KeyboardInterrupt:
 	#tes
+	#print(input("Test:\n"))
 	print("end")
 	pass   # Go to next line

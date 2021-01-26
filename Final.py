@@ -7,6 +7,7 @@ from firebase import firebase as Fire
 fireLink = Fire.FirebaseApplication('https://ee175b21.firebaseio.com//')
 
 GPIO.setmode(GPIO.BCM) 
+GPIO.setwarnings(False)
 
 
 
