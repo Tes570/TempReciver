@@ -10,6 +10,10 @@ GPIO.setwarnings(False)
 GPIO.setup(Pin, GPIO.OUT)     # Declaring GPIO 21 as output pin
 
 
+#GPIO.setup(16, GPIO.IN)
+#if ( GPIO.input(16) == True ):
+
+
 def process(x):
 	GPIO.output(Pin,GPIO.HIGH) 
 	time.sleep(Time)
