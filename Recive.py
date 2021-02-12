@@ -2,7 +2,8 @@ import RPi.GPIO as GPIO     # Importing RPi library to use the GPIO pins
 import time
 
 Pin = 20
-Time = .000056 * 4
+Freq = .000056
+Time = Freq * 4
 
 
 GPIO.setmode(GPIO.BCM) 
@@ -43,7 +44,7 @@ def run():
 	#process(ord(n[0]))
 	
 	process(0x65)
-	time.sleep(.000056 * 100)
+	time.sleep(Freq * 100)
 	
 	
 
