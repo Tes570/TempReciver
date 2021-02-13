@@ -4,25 +4,33 @@
 import threading
 import time
 
+tes = "hey"
+les = tes
+
 # Define a function for the thread
 def print_time( threadName, delay):
    count = 0
    while count < 5:
       time.sleep(delay)
       count += 1
-      print ("{}: {}".format( threadName, time.ctime(time.time()) ))
+      print ("{}: {}".format( tes, time.ctime(time.time()) ))
 
 # Create two threads as follows
 try:
    t1 = threading.Thread( target=print_time, args=("Thread-1", 2) )
-   t2 = threading.Thread( target=print_time, args=("Thread-2", 4) )
+   t2 = threading.Thread( target=print_time, args=(les, 4) )
 except:
    print ("Error: unable to start thread")
 
 
 t1.start()
-t2.start()
+#t2.start()
 
-t1.join()
-t2.join()
+#t1.join()
+#tes = "prin"
+#t2.join()
 
+
+
+time.sleep(3)
+tes = "prin"
