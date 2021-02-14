@@ -39,8 +39,8 @@ def Recive():
 	time.sleep(Freq)
 	time.sleep(Time)
 
-	if(!TestRecive()):
-		return
+	if(~TestRecive()):
+		return 0
 
 	x = 0x0000
 
@@ -58,7 +58,7 @@ def Recive():
 	if(TestRecive()):
 		return x
 
-	return
+	return 0
 
 
 
@@ -74,8 +74,14 @@ def run():
 	#Transmit(ord(n[0]))
 	
 	Transmit(0x0001)
-	while(1):
-		print(Recive())
+	i = 0
+	while(i < 100):
+		i = i + 1
+		time.sleep(Freq)
+		nit = Recive()
+		if(nit != 0):
+			print(nit)
+		
 	
 	
 
