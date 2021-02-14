@@ -17,8 +17,8 @@ def print_time( threadName, delay):
 
 # Create two threads as follows
 try:
-   t1 = threading.Thread( target=print_time, args=("Thread-1", 2) )
-   t2 = threading.Thread( target=print_time, args=(les, 4) )
+   t1 = threading.Thread( target=print_time, args=("Thread-1", 2), daemon=True )
+   t2 = threading.Thread( target=print_time, args=(les, 4), daemon=True )
 except:
    print ("Error: unable to start thread")
 
