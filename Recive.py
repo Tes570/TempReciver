@@ -73,9 +73,9 @@ def run():
 	
 	#Transmit(ord(n[0]))
 	
-	Transmit(0x0001)
+	Transmit(0x0002)
 	i = 0
-	while(i < 100):
+	while(i < 30):
 		i = i + 1
 		time.sleep(Freq)
 		nit = Recive()
