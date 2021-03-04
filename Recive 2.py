@@ -3,8 +3,7 @@ import time
 import threading
 
 Pout = 16
-ReadStartOut = 17
-LedPin = 19
+Test = 3
 
 
 Freq = .000056
@@ -18,29 +17,13 @@ Time = Freq * 4
 GPIO.setmode(GPIO.BCM) 
 GPIO.setwarnings(False)
 
-for i in range(2, 12):
-	GPIO.setup(i, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-	#GPIO.setup(i, GPIO.IN)
-
-#GPIO.setup(ReadStartIn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#GPIO.setup(ReadStartIn, GPIO.IN)
-
-
-GPIO.setup(ReadStartOut, GPIO.OUT)
 GPIO.setup(Pout, GPIO.OUT)
+#GPIO.setup(Test, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(Test, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#PUD_DOWN
+#GPIO.add_event_detect(Test, GPIO.RISING)
 
 
-
-#GPIO.output(Pout,GPIO.LOW)
-GPIO.output(ReadStartOut,GPIO.LOW)
-
-
-def send(x):
-	Transmit(x)
-	i = 0
-	while(i < 5000):
-		i = i + 1
-		time.sleep(Freq)
 
 def Transmit(x):
 	GPIO.output(Pout,GPIO.HIGH) 
@@ -64,47 +47,41 @@ def Transmit(x):
 
 def Recive():
 	#time.sleep(Freq)
-	x = 0x0000
+	#Test
 	
-	for i in range(2, 12):
-		if(GPIO.input(i)):
-			x = ((0x0001 << (i-2)) | x)
+	x = 0x0000
+	#while(not GPIO.event_detected(Test)):
+	while(not GPIO.input(Test)):
+		time.sleep(Freq)
+	
+	
+	#time.sleep(Freq)
+	#print("hey")
+	if(GPIO.input(Test)):
+		for i in range(10):
+			time.sleep(Time)
+			x = ((0x0001 << (i)) | x)
+				
 		
-	return (x & 0x03)
+		
+	
+	
+		
+	return x
 
 
 
 		
 
 def run():
+	Transmit(0x0103)
+	#tes = Recive()
+	tes = 0
+	time.sleep(Time * 100)
+	print(GPIO.input(Test))
 	
-
-	#Transmit(0x35)
-	#n = "aAB"
 	
 	
-	#Transmit(ord(n[0]))
-	#GPIO.output(ReadStartOut,GPIO.HIGH)
-	GPIO.output(ReadStartOut,GPIO.LOW)
-	Transmit(0x0102)
-	print("Send")
-	'''
-	i = 0
-	time.sleep(Time * 200)
-	
-	nit = Recive()
-			
-	if((nit != 0) and (nit != 0x3ff)):
-		#i = 101
-		time.sleep(Time * 10)
-		#print(hex(nit))
-		print(nit)
-			
-	'''
-	
-	#time.sleep(Time * 10)
-	#time.sleep(Freq * 100)
-	time.sleep(.01)
 	
 
 
