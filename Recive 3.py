@@ -82,7 +82,7 @@ def send():
 
 		
 
-def run():
+def Thermo(xn):
 	
 	#Transmit(0x0203)
 	#time.sleep(.01)
@@ -94,7 +94,7 @@ def run():
 	#while(t < 1):
 	t = t + 1
 	#GPIO.output(Con,GPIO.LOW)
-	Transmit(0x0103)
+	Transmit(xn)
 	#GPIO.output(Con,GPIO.HIGH)
 	n = 0
 	#while (n < 2):
@@ -117,7 +117,7 @@ def run():
 	
 	
 	
-	time.sleep(5)
+	time.sleep(10)
 	GPIO.output(Con,GPIO.LOW)
 	time.sleep(.01)
 	
@@ -131,7 +131,11 @@ try:
 	#t1.start()
 	
 	while 1:
-		run()
+		print("Room 1")
+		Thermo(0x0101)
+		
+		print("Room 2")
+		Thermo(0x0102)	
 		#t1.join()
 		
 
