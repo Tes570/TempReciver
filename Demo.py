@@ -4,18 +4,16 @@ from Include import *
 
 def Run():
 	
-	time.sleep(10)
+	time.sleep(1)
 	
 	ThermoUpdate()
 	
 	FireUpdate()
-	print("Hello")
 	
-	if (RoomSet[0] > RoomTemp[0]):
-		ServoOn(0)
-		#FanOn
+	if(ServoTest):
+		ServoOpen()
 	else:
-		ServoOff(0)
+		ServoClose()
 	
 
 

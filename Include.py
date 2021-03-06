@@ -6,10 +6,13 @@ from firebase import firebase as Fire
 fireLink = Fire.FirebaseApplication('https://ee175b21.firebaseio.com//')
 
 Pout = 16
-ReadStartOut = 17
+Con = 10
+Cout = 11
 LedPin = 19
 Freq = .000056
 Time = Freq * 4
+
+ServoTest = False
 
 
 GPIO.setmode(GPIO.BCM) 
@@ -24,23 +27,26 @@ GPIO.setup(14, GPIO.OUT)
 RoomSet = [0, 0, 0]
 RoomTemp = [0, 0, 0]
 Servo = [GPIO.PWM(12, 50), GPIO.PWM(13, 50), GPIO.PWM(14, 50)]
-Servo[0].start(7.5)
-Servo[1].start(7.5)
-Servo[2].start(4.5)
+Servo[0].start(2.5)
+Servo[1].start(2.5)
+Servo[2].start(2.5)
 
 
-for i in range(2, 12):
+for i in range(2, 10):
 	GPIO.setup(i, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 	#GPIO.setup(i, GPIO.IN), pull_up_down=GPIO.PUD_DOWN
 
 GPIO.setup(Pout, GPIO.OUT)
-GPIO.setup(ReadStartOut, GPIO.OUT) 
+GPIO.setup(Con, GPIO.OUT)
+GPIO.setup(Cout, GPIO.OUT)
 GPIO.setup(LedPin, GPIO.OUT)
+
+
 
 def Setup():
 	
 	
-	
+	GPIO.output(Con,GPIO.LOW)
 	
 	
 	for i in range(3):
@@ -52,10 +58,10 @@ def Setup():
 	
 	
 def ServoOn(x):
-	Servo[x].start(2.5)
+	Servo[x].start(7.5)
 
 def ServoOff(x):
-	Servo[x].start(7.5)
+	Servo[x].start(2.5)
 
 def FanOn():
 	GPIO.output(LedPin,GPIO.LOW) 
@@ -65,44 +71,25 @@ def FanOff():
 	
 def ThermoUpdate():
 	
-	send = [0x0102, 0x0103]
+	send = [0x0101, 0x0102]
 	###############################################################################
-	for i in range(2):
+	for i in send:
+		print("room: " + str(i))
+		RoomTemp[send.index(i)] = Thermo(i)
 		
-		tes = 70
-		tes2 = True
-		while (tes2):
-			Transmit(send[i])
-			tem = Recive()
-			time.sleep(.001)
-			#print(tem)
-			#####################
-			tes2 = False
-			#############################
-			
-			if((tem >= 55) and (tem <= 100)):
-				tes = tem
-				tes2 = False
-		
-		
-			
-		
-		#if(tes2 == False):
-			#RoomTemp[i] = tes
-		time.sleep(1)
 	
 def FireUpdate():
-	tes = False
+	ServoTest = False
 	
 	for i in range(3):
 		RoomSet[i] = fireLink.get(("Demo/Room Setting/room" + str(i)), None)
-		RoomTemp[i] = fireLink.get(("Demo/Room Temp/room" + str(i)), None)
-		#fireLink.put('Demo/Room Temp', ('room' + str(i)), RoomTemp[i])
+		#RoomTemp[i] = fireLink.get(("Demo/Room Temp/room" + str(i)), None)
+		fireLink.put('Demo/Room Temp', ('room' + str(i)), RoomTemp[i])
 		
 		if(RoomSet[i] > RoomTemp[i]):
-			tes = True
+			ServoTest = True
 			
-	if tes:
+	if ServoTest:
 		FanOn()
 	else:
 		FanOff()
@@ -138,3 +125,61 @@ def Recive():
 			x = ((0x0001 << (i-2)) | x)
 		
 	return x
+
+
+def Thermo(xn):
+	
+	#Transmit(0x0203)
+	#time.sleep(.01)
+	#tes = Recive()
+	GPIO.output(Con,GPIO.HIGH)
+	
+	
+	tes = 0
+	tem = 3
+	while((tes == 0) and (tem != 0)):
+		Transmit(xn)
+		
+		time.sleep(.5)
+		tes = Recive()
+		tem = tem - 1
+		
+		if((tes != 0) and (tes != 0xff)):
+			#tes = Recive()
+			#print(hex(tes))
+			print(tes)
+			if((tes > 110) or (tes < 40)):
+				tes = 0
+		else:
+			tes = 0
+			
+					
+	
+	
+	
+	
+	time.sleep(10)
+	GPIO.output(Con,GPIO.LOW)
+	time.sleep(.01)
+	
+def ServoOpen():
+
+
+	if(RoomSet[0] < RoomTemp[0]):
+		ServoOn(0)
+
+	if(RoomSet[1] < RoomTemp[1]):
+		ServoOn(1)
+		ServoOn(2)
+
+
+
+def ServoClose():
+	if(RoomSet[0] > RoomTemp[0]):
+		ServoOff(0)
+
+	if(RoomSet[1] > RoomTemp[1]):
+		ServoOff(1)
+		ServoOff(2)
+
+
