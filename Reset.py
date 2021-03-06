@@ -4,11 +4,11 @@ from Include import *
 
 def Run():
 	
-	time.sleep(1)
-	ServoTest()
-	time.sleep(2)
+	#time.sleep(1)
+	#ServoTest()
+	#time.sleep(2)
 	ServoReset()
-	time.sleep(5)
+	#time.sleep(5)
 
 
 

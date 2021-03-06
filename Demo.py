@@ -11,11 +11,11 @@ def Run():
 	FireUpdate()
 	
 	if(ServoTest):
-		print("Open")
-		#ServoOpen()
+		#print("Open")
+		ServoOpen()
 	else:
-		print("Close")
-		#ServoClose()
+		#print("Close")
+		ServoClose()
 	
 
 

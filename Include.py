@@ -11,6 +11,7 @@ Cout = 11
 LedPin = 19
 Freq = .000056
 Time = Freq * 4
+wait = 1
 
 ServoTest = False
 
@@ -27,9 +28,9 @@ GPIO.setup(14, GPIO.OUT)
 RoomSet = [0, 0, 0]
 RoomTemp = [0, 0, 0]
 Servo = [GPIO.PWM(12, 50), GPIO.PWM(13, 50), GPIO.PWM(14, 50)]
-Servo[0].start(2.5)
-Servo[1].start(2.5)
-Servo[2].start(2.5)
+Servo[0].start(0)
+Servo[1].start(0)
+Servo[2].start(0)
 
 
 for i in range(2, 10):
@@ -59,9 +60,13 @@ def Setup():
 	
 def ServoOn(x):
 	Servo[x].start(7.5)
+		
 
 def ServoOff(x):
 	Servo[x].start(2.5)
+	
+def ServoClear(x):
+	Servo[x].start(0)
 
 def FanOn():
 	GPIO.output(LedPin,GPIO.LOW) 
@@ -75,7 +80,9 @@ def ThermoUpdate():
 	###############################################################################
 	for i in range(2):
 		print("room: " + str(i + 1))
-		RoomTemp[i] = Thermo(send[i])
+		f = Thermo(send[i])
+		if (f != 0):
+			RoomTemp[i] = f
 		
 	
 def FireUpdate():
@@ -183,20 +190,32 @@ def ServoOpen():
 
 	if(RoomSet[0] < RoomTemp[0]):
 		ServoOn(0)
+		time.sleep(wait)
+		ServoClear(0)
 
 	if(RoomSet[1] < RoomTemp[1]):
 		ServoOn(1)
+		time.sleep(wait)
+		ServoClear(1)
 		ServoOn(2)
+		time.sleep(wait)
+		ServoClear(2)
 
 
 
 def ServoClose():
 	if(RoomSet[0] > RoomTemp[0]):
 		ServoOff(0)
+		time.sleep(wait)
+		ServoClear(0)
 
 	if(RoomSet[1] > RoomTemp[1]):
 		ServoOff(1)
+		time.sleep(wait)
+		ServoClear(1)
 		ServoOff(2)
+		time.sleep(wait)
+		ServoClear(2)
 
 
 def ServoReset():
@@ -206,11 +225,21 @@ def ServoReset():
 
 def ServoTest():
 	ServoOff(0)
+	time.sleep(wait)
 	ServoOff(1)
+	time.sleep(wait)
 	ServoOff(2)
+	#time.sleep(wait)
 	
-	time.sleep(2)
+	time.sleep(5)
 	
 	ServoOn(0)
+	time.sleep(wait)
+	Servo[0].start(0)
 	ServoOn(1)
+	time.sleep(wait)
+	Servo[1].start(0)
 	ServoOn(2)
+	time.sleep(wait)
+	Servo[2].start(0)
+	time.sleep(5)
