@@ -81,7 +81,7 @@ def ThermoUpdate():
 def FireUpdate():
 	ServoTest = False
 	
-	for i in range(3):
+	for i in range(2):
 		RoomSet[i] = fireLink.get(("Demo/Room Setting/room" + str(i)), None)
 		#RoomTemp[i] = fireLink.get(("Demo/Room Temp/room" + str(i)), None)
 		fireLink.put('Demo/Room Temp', ('room' + str(i)), RoomTemp[i])
@@ -161,6 +161,7 @@ def Thermo(xn):
 	time.sleep(10)
 	GPIO.output(Con,GPIO.LOW)
 	time.sleep(.01)
+	return tes
 	
 def ServoOpen():
 
@@ -183,3 +184,18 @@ def ServoClose():
 		ServoOff(2)
 
 
+def ServoReset():
+	ServoOff(0)
+	ServoOff(1)
+	ServoOff(2)
+
+def ServoTest():
+	ServoOff(0)
+	ServoOff(1)
+	ServoOff(2)
+	
+	time.sleep(2)
+	
+	ServoOn(0)
+	ServoOn(1)
+	ServoOn(2)

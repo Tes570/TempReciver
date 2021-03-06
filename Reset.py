@@ -5,16 +5,10 @@ from Include import *
 def Run():
 	
 	time.sleep(1)
-	
-	ThermoUpdate()
-	
-	FireUpdate()
-	
-	if(ServoTest):
-		#ServoOpen()
-	else:
-		#ServoClose()
-	
+	ServoTest()
+	time.sleep(2)
+	ServoReset()
+	time.sleep(5)
 
 
 
