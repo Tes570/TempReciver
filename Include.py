@@ -73,9 +73,9 @@ def ThermoUpdate():
 	
 	send = [0x0101, 0x0102]
 	###############################################################################
-	for i in send:
-		print("room: " + str(i))
-		RoomTemp[send.index(i)] = Thermo(i)
+	for i in range(2):
+		print("room: " + str(i + 1))
+		RoomTemp[i] = Thermo(send[i])
 		
 	
 def FireUpdate():
@@ -96,11 +96,11 @@ def FireUpdate():
 		
 
 def Transmit(x):
+	GPIO.output(Cout,GPIO.HIGH)
 	GPIO.output(Pout,GPIO.HIGH) 
 	time.sleep(Time)
 	GPIO.output(Pout,GPIO.HIGH) 
 	time.sleep(Time)
-	
 	
 	
 	for i in range(10):
@@ -114,15 +114,27 @@ def Transmit(x):
 	GPIO.output(Pout,GPIO.HIGH) 
 	time.sleep(Time)
 	GPIO.output(Pout,GPIO.LOW) 
+	GPIO.output(Cout,GPIO.LOW)
+
 
 
 def Recive():
-	time.sleep(Time * 80)
+	#time.sleep(Freq)
+	#Test
+	
 	x = 0x0000
 	
-	for i in range(2, 12):
+	
+	
+	#time.sleep(Freq)
+	for i in range(2, 10):
 		if(GPIO.input(i)):
 			x = ((0x0001 << (i-2)) | x)
+				
+		
+		
+	
+	
 		
 	return x
 
@@ -137,7 +149,7 @@ def Thermo(xn):
 	
 	tes = 0
 	tem = 3
-	while((tes == 0) and (tem != 0)):
+	while((tem != 0)):
 		Transmit(xn)
 		
 		time.sleep(.5)
@@ -150,10 +162,12 @@ def Thermo(xn):
 			print(tes)
 			if((tes > 110) or (tes < 40)):
 				tes = 0
+			else:
+				tem = 0
 		else:
 			tes = 0
 			
-					
+		time.sleep(2)		
 	
 	
 	
@@ -162,6 +176,7 @@ def Thermo(xn):
 	GPIO.output(Con,GPIO.LOW)
 	time.sleep(.01)
 	return tes
+	
 	
 def ServoOpen():
 
