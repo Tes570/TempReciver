@@ -93,13 +93,10 @@ def FireUpdate():
 		#RoomTemp[i] = fireLink.get(("Demo/Room Temp/room" + str(i)), None)
 		fireLink.put('Demo/Room Temp', ('room' + str(i)), RoomTemp[i])
 		
-		if(RoomSet[i] > RoomTemp[i]):
+		if(RoomSet[i] < RoomTemp[i]):
 			ServoTest = True
 			
-	if ServoTest:
-		FanOn()
-	else:
-		FanOff()
+	
 		
 
 def Transmit(x):
@@ -185,37 +182,51 @@ def Thermo(xn):
 	return tes
 	
 	
-def ServoOpen():
-
-
-	if(RoomSet[0] < RoomTemp[0]):
-		ServoOn(0)
-		time.sleep(wait)
-		ServoClear(0)
-
-	if(RoomSet[1] < RoomTemp[1]):
-		ServoOn(1)
-		time.sleep(wait)
-		ServoClear(1)
-		ServoOn(2)
-		time.sleep(wait)
-		ServoClear(2)
-
-
-
 def ServoClose():
-	if(RoomSet[0] > RoomTemp[0]):
+
+	
+	if(RoomSet[0] < RoomTemp[0]):
 		ServoOff(0)
 		time.sleep(wait)
 		ServoClear(0)
+		FanOn()
+		
+		
 
-	if(RoomSet[1] > RoomTemp[1]):
+	if(RoomSet[1] < RoomTemp[1]):
 		ServoOff(1)
 		time.sleep(wait)
 		ServoClear(1)
 		ServoOff(2)
 		time.sleep(wait)
 		ServoClear(2)
+		FanOn()
+	
+	
+
+
+
+def ServoOpen():
+	
+	tem = 0
+	
+	if(RoomSet[0] >= RoomTemp[0]):
+		ServoOn(0)
+		time.sleep(wait)
+		ServoClear(0)
+		tem = tem + 1
+
+	if(RoomSet[1] >= RoomTemp[1]):
+		ServoOn(1)
+		time.sleep(wait)
+		ServoClear(1)
+		ServoOn(2)
+		time.sleep(wait)
+		ServoClear(2)
+		tem = tem + 1
+		
+	if(tem >= 2):
+		FanOff()
 
 
 def ServoReset():
